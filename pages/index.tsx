@@ -14,24 +14,44 @@ const imgUrl =
 
 const Home: NextPage = ({ articles }: any) => {
   const [isDarkMode, setDarkMode] = useState(true);
+  const [articlesLoaded, setArticlesLoaded] = useState(
+    articles.retrievePageArticles
+  );
 
-  const loaded = articles.retrievePageArticles;
+  
+
+  const [nav, setNav] = useState(false);
+
+  const handleClick = () => setNav(!nav);
 
   return (
     <>
       <Head>
-        <title>Test Blog</title>
+        <title>Article Reader</title>
         <meta name="Blos-Assessment" content="Blog-site" />
         <link rel="icon" href="/article.ico" />
       </Head>
       <Page light={isDarkMode}>
-        <NavBar isDarkMode={isDarkMode} setDarkMode={setDarkMode} />
-        <BannerContainer>
-          <Banner light={isDarkMode}>Test</Banner>
-          <Image src={BannerImage} width={550} height={500} />
-        </BannerContainer>
+        <NavBar
+          nav={nav}
+          setNav={setNav}
+          handleClick={handleClick}
+          isDarkMode={isDarkMode}
+          setDarkMode={setDarkMode}
+        />
+        {!nav && (
+          <BannerContainer>
+            <Banner light={isDarkMode}>Test</Banner>
+            <Image
+              responsive="750w"
+              src={BannerImage}
+              width={550}
+              height={500}
+            />
+          </BannerContainer>
+        )}
 
-        {loaded.map((article: Article) => {
+        {articlesLoaded.map((article: Article) => {
           return (
             <Card
               title={article.title}
@@ -84,9 +104,13 @@ export const getStaticProps: GetStaticProps = async (context) => {
 const Banner = styled.div<{ light: boolean }>`
   height: 500px;
   width: 100%;
-  background-color: #b7c7c9;
+  background-color: ${(props) => (props.light ? "#b7c7c9" : "#333")};
+
   font-size: 25rem;
-  color: ${(props) => (!props.light ? "#eee" : "#333")};
+  color: ${(props) => (!props.light ? "#eee" : "#8c778c")};
+  @media (max-width: 750px) {
+    font-size: 8rem;
+  }
 `;
 
 const Page = styled.div<{ light: boolean }>`
@@ -102,7 +126,7 @@ const H1 = styled.h1<{ light: boolean }>`
   font-size: 3rem;
   color: ${(props) => (!props.light ? "#eee" : "#000")};
   width: 100vh;
-  @media (max-width: 500px) {
+  @media (max-width: 750px) {
     font-size: 2rem;
   }
 `;
@@ -111,4 +135,7 @@ const BannerContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  @media (max-width: 750px) {
+    flex-direction: column;
+  }
 `;

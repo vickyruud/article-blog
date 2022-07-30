@@ -6,13 +6,17 @@ import { useState } from "react";
 const NavBar = ({
   isDarkMode,
   setDarkMode,
+  handleClick,
+  setNav,
+  nav,
 }: {
   isDarkMode: boolean;
   setDarkMode: any;
+  handleClick: any;
+  setNav: any;
+  nav: boolean;
 }) => {
-  const [nav, setNav] = useState(false);
 
-  const handleClick = () => setNav(!nav);
   const handleToggle = () => {
     setDarkMode(!isDarkMode);
   };
@@ -57,7 +61,7 @@ export default NavBar;
 const H1 = styled.h1<{ light: boolean }>`
   font-size: 2rem;
   color: ${(props) => (!props.light ? "#eee" : "#000")};
-  @media (max-width: 500px) {
+  @media (max-width: 750px) {
     font-size: 1rem;
   }
 `;
@@ -79,7 +83,7 @@ const Container = styled.div<{ light: boolean }>`
   margin: 5px;
   align-items: center;
   place-items: center;
-  @media (max-width: 500px) {
+  @media (max-width: 750px) {
     display: none;
   }
 `;
@@ -105,7 +109,7 @@ const MenuContainer = styled.div<{ light: boolean }>`
   align-items: center;
   justify-content: space-between;
   padding-right: 40px;
-  @media (max-width: 500px) {
+  @media (max-width: 750px) {
     display: none;
   }
 `;
@@ -118,7 +122,7 @@ const StyledLink = styled.a<{ light: boolean }>`
 const HamburgerButton = styled.button<{ light: boolean }>`
   display: none;
 
-  @media (max-width: 500px) {
+  @media (max-width: 750px) {
     display: flex;
     background-color: ${(props) => (props.light ? "#eee" : "#333")};
     color: ${(props) => (!props.light ? "#eee" : "#333")};
