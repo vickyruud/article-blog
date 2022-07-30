@@ -16,7 +16,6 @@ const NavBar = ({
   setNav: any;
   nav: boolean;
 }) => {
-
   const handleToggle = () => {
     setDarkMode(!isDarkMode);
   };

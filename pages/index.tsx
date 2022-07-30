@@ -9,13 +9,12 @@ import Card from "../components/Card";
 import NavBar from "../components/NavBar";
 import BannerImage from "../public/book.jpg";
 import InfiniteScroll from "react-infinite-scroll-component";
-
-import { Mutation } from "react-apollo";
-
 const client = new ApolloClient({
   uri: "https://gql-technical-assignment.herokuapp.com/graphql",
   cache: new InMemoryCache(),
 });
+import ModalForm from "../components/ModalForm";
+import { Button } from "../components/modal.styles";
 
 const imgUrl =
   "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80";
@@ -26,7 +25,8 @@ const Home: NextPage = ({ articles }: any) => {
     articles.retrievePageArticles
   );
   const [nav, setNav] = useState(false);
-  const [page, setPage] = useState(false);
+  const [page, setPage] = useState(1);
+  const [active, setActive] = useState(false);
 
   const handleClick = () => setNav(!nav);
 
@@ -77,6 +77,7 @@ const Home: NextPage = ({ articles }: any) => {
           isDarkMode={isDarkMode}
           setDarkMode={setDarkMode}
         />
+
         {!nav && (
           <BannerContainer>
             <Banner light={isDarkMode}>Test</Banner>
@@ -88,6 +89,10 @@ const Home: NextPage = ({ articles }: any) => {
             />
           </BannerContainer>
         )}
+        <Button onClick={() => setActive(true)}>Open Modal</Button>
+        <ModalForm active={active} hideModal={() => setActive(false)}>
+          Click Me
+        </ModalForm>
         <InfiniteScroll
           dataLength={articlesLoaded.length}
           next={getMoreArticles}
@@ -178,4 +183,15 @@ const BannerContainer = styled.div`
   @media (max-width: 750px) {
     flex-direction: column;
   }
+`;
+
+const Modal = styled.div<{ light: boolean; show: boolean }>`
+  z-index: auto;
+  display: ${({ show }) => (show ? "block" : "none")};
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.5);
 `;
