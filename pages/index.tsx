@@ -1,38 +1,48 @@
 import type { GetStaticProps, NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import styles from "../styles/Home.module.css";
 import styled from "styled-components";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { GetArticleResults, Article } from "../types";
 import { useState } from "react";
+import Card from "../components/Card";
+
+const imgUrl =
+  "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80";
 
 const Home: NextPage = ({ articles }: any) => {
-  const [isDarkMode, setDarkMode] = useState(false);
+  const [isDarkMode, setDarkMode] = useState(true);
+
   const handleToggle = () => {
     setDarkMode(!isDarkMode);
   };
   const loaded = articles.firstPageArticles;
 
   return (
-    <Page light={isDarkMode ? true : false}>
+    <>
       <Head>
         <title>Test Blog</title>
         <meta name="Blos-Assessment" content="Blog-site" />
         <link rel="icon" href="/article.ico" />
       </Head>
-      <H1 light={isDarkMode ? true : false}>Welcome to the blog site</H1>
-      <Toggle light={isDarkMode ? true : false} onClick={handleToggle}>
-        Change Theme
-      </Toggle>
-      {loaded.map((article: Article) => {
-        return (
-          <Container light={isDarkMode ? true : false} key={article.id}>
-            <Content light={isDarkMode ? true : false}>{article.title}</Content>
-          </Container>
-        );
-      })}
-    </Page>
+      <Page light={isDarkMode}>
+        <H1 light={isDarkMode}>Welcome to the blog site</H1>
+        <Toggle light={isDarkMode} onClick={handleToggle}>
+          Change Theme
+        </Toggle>
+        {loaded.map((article: Article) => {
+          return (
+            <Card
+              title={article.title}
+              text={article.text}
+              author={article.author}
+              imgUrl={imgUrl}
+              light={isDarkMode}
+            />
+          );
+        })}
+      </Page>
+    </>
   );
 };
 
@@ -69,17 +79,15 @@ export const getStaticProps: GetStaticProps = async (context) => {
   };
 };
 
-const Page = styled("div")<{ light: boolean }>`
-  position: relative;
-  min-height: 100vh;
+const Page = styled.div<{ light: boolean }>`
+  display: flex;
+  position: fixed;
+  flex-direction: column;
+  background-color: ${(props) => (props.light ? "#eee" : "#333")};
   width: 100vw;
-  display: grid;
-  place-items: center;
-  transition: 0.5s;
-  background: ${(props) => (props.light ? "#eee" : "#333")};
 `;
-const Toggle = styled("button")<{ light: boolean }>`
-  padding: 1rem;
+const Toggle = styled.button<{ light: boolean }>`
+  padding-right: 5rem;
   border: none;
   outline: none;
   font-size: 2rem;
@@ -90,24 +98,9 @@ const Toggle = styled("button")<{ light: boolean }>`
   position: absolute;
   top: 0;
   right: 0;
-  &:hover {
-    transition: 0.2s all ease-in-out;
-  }
 `;
-const H1 = styled("h1")<{ light: boolean }>`
+const H1 = styled.h1<{ light: boolean }>`
   font-size: 3rem;
   color: ${(props) => (!props.light ? "#eee" : "#000")};
-`;
-
-const Container = styled("div")<{ light: boolean }>`
-  display: flex;
-  border: 3px solid red;
-  border-radius: 15px;
-  justify-content: space-around;
-  font-size: 5em;
-  color: ${(props) => (!props.light ? "#eee" : "#000")};
-`;
-
-const Content = styled("div")<{ light: boolean }>`
-  align-self: center;
+  width: 100vh;
 `;
