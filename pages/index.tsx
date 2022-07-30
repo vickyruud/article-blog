@@ -21,17 +21,18 @@ const Home: NextPage = ({ articles }: any) => {
         <meta name="Blos-Assessment" content="Blog-site" />
         <link rel="icon" href="/article.ico" />
       </Head>
-      <h2>Welcome to the blog site</h2>
+      <H1 light={isDarkMode ? true : false}>Welcome to the blog site</H1>
       <Toggle light={isDarkMode ? true : false} onClick={handleToggle}>
         Change Theme
       </Toggle>
-      {/* {loaded.map((article: Article) => {
+      {loaded.map((article: Article) => {
         return (
-          <div key={article.id}>
-            <li>{article.title}</li>
-          </div>
+          <Container light={isDarkMode ? true : false} key={article.id}>
+            <Content light={isDarkMode ? true : false}>{article.title}</Content>
+            <Image src={article.url} width="200" height="200" />
+          </Container>
         );
-      })} */}
+      })}
     </Page>
   );
 };
@@ -69,7 +70,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   };
 };
 
-const Page = styled.div`
+const Page = styled("div")<{ light: boolean }>`
   position: relative;
   min-height: 100vh;
   width: 100vw;
@@ -78,7 +79,7 @@ const Page = styled.div`
   transition: 0.5s;
   background: ${(props) => (props.light ? "#eee" : "#333")};
 `;
-const Toggle = styled.button`
+const Toggle = styled("button")<{ light: boolean }>`
   padding: 1rem;
   border: none;
   outline: none;
@@ -93,4 +94,21 @@ const Toggle = styled.button`
   &:hover {
     transition: 0.2s all ease-in-out;
   }
+`;
+const H1 = styled("h1")<{ light: boolean }>`
+  font-size: 3rem;
+  color: ${(props) => (!props.light ? "#eee" : "#000")};
+`;
+
+const Container = styled("div")<{ light: boolean }>`
+  display: flex;
+  border: 3px solid red;
+  border-radius: 15px;
+  justify-content: space-around;
+  font-size: 5em;
+  color: ${(props) => (!props.light ? "#eee" : "#000")};
+`;
+
+const Content = styled("div")<{ light: boolean }>`
+  align-self: center;
 `;
