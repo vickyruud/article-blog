@@ -4,10 +4,18 @@ import Image from "next/image";
 import styled from "styled-components";
 import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { GetArticleResults, Article } from "../types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "../components/Card";
 import NavBar from "../components/NavBar";
 import BannerImage from "../public/book.jpg";
+import InfiniteScroll from "react-infinite-scroll-component";
+
+import { Mutation } from "react-apollo";
+
+const client = new ApolloClient({
+  uri: "https://gql-technical-assignment.herokuapp.com/graphql",
+  cache: new InMemoryCache(),
+});
 
 const imgUrl =
   "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80";
@@ -17,12 +25,42 @@ const Home: NextPage = ({ articles }: any) => {
   const [articlesLoaded, setArticlesLoaded] = useState(
     articles.retrievePageArticles
   );
-
-  
-
   const [nav, setNav] = useState(false);
+  const [page, setPage] = useState(false);
 
   const handleClick = () => setNav(!nav);
+
+  const getMoreArticles = async () => {
+    const { data }: GetArticleResults = await client.query({
+      query: gql`
+        query {
+          retrievePageArticles(page: 2) {
+            id
+            author
+            createdAt
+            score
+            updatedAt
+            title
+            text
+            type
+            url
+          }
+        }
+      `,
+    });
+    const newArticles = data;
+    console.log(newArticles);
+
+    setArticlesLoaded((articles) => [
+      ...articles,
+      ...newArticles.retrievePageArticles,
+    ]);
+    setPage((page) => page + 1);
+  };
+
+  useEffect(() => {
+    getMoreArticles();
+  }, []);
 
   return (
     <>
@@ -50,19 +88,26 @@ const Home: NextPage = ({ articles }: any) => {
             />
           </BannerContainer>
         )}
-
-        {articlesLoaded.map((article: Article) => {
-          return (
-            <Card
-              title={article.title}
-              text={article.text}
-              author={article.author}
-              imgUrl={imgUrl}
-              light={isDarkMode}
-              url={article.url}
-            />
-          );
-        })}
+        <InfiniteScroll
+          dataLength={articlesLoaded.length}
+          next={getMoreArticles}
+          hasMore={true}
+          loader={<h4>Loading...</h4>}
+        >
+          {articlesLoaded.map((article: Article) => {
+            return (
+              <Card
+                key={article.id}
+                title={article.title}
+                text={article.text}
+                author={article.author}
+                imgUrl={imgUrl}
+                light={isDarkMode}
+                url={article.url}
+              />
+            );
+          })}
+        </InfiniteScroll>
       </Page>
     </>
   );
@@ -71,11 +116,6 @@ const Home: NextPage = ({ articles }: any) => {
 export default Home;
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const client = new ApolloClient({
-    uri: "https://gql-technical-assignment.herokuapp.com/graphql",
-    cache: new InMemoryCache(),
-  });
-
   const { data }: GetArticleResults = await client.query({
     query: gql`
       query {

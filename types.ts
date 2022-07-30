@@ -1,5 +1,5 @@
 export interface GetArticleResults {
-  data: Article[];
+  data: Article;
 }
 
 export interface Article {
