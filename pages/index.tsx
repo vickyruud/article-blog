@@ -17,7 +17,7 @@ const Home: NextPage = ({ articles }: any) => {
   const handleToggle = () => {
     setDarkMode(!isDarkMode);
   };
-  const loaded = articles.firstPageArticles;
+  const loaded = articles.retrievePageArticles;
 
   return (
     <>
@@ -40,6 +40,7 @@ const Home: NextPage = ({ articles }: any) => {
               author={article.author}
               imgUrl={imgUrl}
               light={isDarkMode}
+              url={article.url}
             />
           );
         })}
@@ -59,7 +60,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const { data }: GetArticleResults = await client.query({
     query: gql`
       query {
-        firstPageArticles {
+        retrievePageArticles(page: 1) {
           id
           author
           createdAt

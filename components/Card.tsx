@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Image from "next/image";
+import Link from "next/link";
 
 const CardContainer = styled.div<{ light: boolean }>`
   display: flex;
@@ -54,6 +55,12 @@ const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding-right: 30px;
+  max-width: 500px;
+`;
+
+const StyledLink = styled.a<{ light: boolean }>`
+  color: ${(props) => (!props.light ? "#eee" : "#333")};
+  font-weight: bold;
 `;
 
 const Card = ({
@@ -62,7 +69,9 @@ const Card = ({
   author,
   imgUrl,
   light,
+  url,
 }: {
+  url: String;
   title: String;
   text: String;
   author: String;
@@ -76,6 +85,11 @@ const Card = ({
     <TextContainer>
       <Title light={light}>{title}</Title>
       <ArticleText light={light}>{text}</ArticleText>
+      {url && (
+        <StyledLink href={url} light={light}>
+          Read the Article
+        </StyledLink>
+      )}
     </TextContainer>
   </CardContainer>
 );
