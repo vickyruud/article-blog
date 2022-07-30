@@ -29,7 +29,6 @@ const Home: NextPage = ({ articles }: any) => {
         return (
           <Container light={isDarkMode ? true : false} key={article.id}>
             <Content light={isDarkMode ? true : false}>{article.title}</Content>
-            <Image src={article.url} width="200" height="200" />
           </Container>
         );
       })}
