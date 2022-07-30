@@ -6,6 +6,7 @@ import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { GetArticleResults, Article } from "../types";
 import { useState } from "react";
 import Card from "../components/Card";
+import { FaMoon, FaSun } from "react-icons/fa";
 
 const imgUrl =
   "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80";
@@ -28,8 +29,9 @@ const Home: NextPage = ({ articles }: any) => {
       <Page light={isDarkMode}>
         <H1 light={isDarkMode}>Welcome to the blog site</H1>
         <Toggle light={isDarkMode} onClick={handleToggle}>
-          Change Theme
+          {!isDarkMode ? <FaSun /> : <FaMoon />}
         </Toggle>
+
         {loaded.map((article: Article) => {
           return (
             <Card
@@ -81,7 +83,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
 const Page = styled.div<{ light: boolean }>`
   display: flex;
-  position: fixed;
+  position: static;
+  overflow-x: hidden;
   flex-direction: column;
   background-color: ${(props) => (props.light ? "#eee" : "#333")};
   width: 100vw;
@@ -103,4 +106,7 @@ const H1 = styled.h1<{ light: boolean }>`
   font-size: 3rem;
   color: ${(props) => (!props.light ? "#eee" : "#000")};
   width: 100vh;
+  @media (max-width: 500px) {
+    font-size: 2rem;
+  }
 `;

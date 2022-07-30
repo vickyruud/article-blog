@@ -13,6 +13,9 @@ const CardContainer = styled.div<{ light: boolean }>`
   min-width: 100%;
   margin: 25px;
   padding: 20px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  justify-content: space-around;
   @media (max-width: 500px) {
     flex-direction: column;
   }
@@ -21,7 +24,7 @@ const CardContainer = styled.div<{ light: boolean }>`
 const Title = styled.h2<{ light: boolean }>`
   color: ${(props) => (!props.light ? "#eee" : "#333")};
   font-weight: bold;
-  padding-left: 20px;
+
   @media (max-width: 500px) {
     font-size: 1rem;
   }
@@ -43,6 +46,16 @@ const StyledImg = styled.img`
   border: 1px solid;
 `;
 
+const ArticleText = styled.p<{ light: boolean }>`
+  color: ${(props) => (!props.light ? "#eee" : "#333")};
+`;
+
+const TextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-right: 30px;
+`;
+
 const Card = ({
   title,
   text,
@@ -60,7 +73,10 @@ const Card = ({
     <ImageContainer>
       <StyledImg src={imgUrl} />
     </ImageContainer>
-    <Title light={light}>{title}</Title>
+    <TextContainer>
+      <Title light={light}>{title}</Title>
+      <ArticleText light={light}>{text}</ArticleText>
+    </TextContainer>
   </CardContainer>
 );
 export default Card;
