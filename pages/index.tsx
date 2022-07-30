@@ -7,6 +7,7 @@ import { GetArticleResults, Article } from "../types";
 import { useState } from "react";
 import Card from "../components/Card";
 import NavBar from "../components/NavBar";
+import BannerImage from "../public/book.jpg";
 
 const imgUrl =
   "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80";
@@ -25,6 +26,10 @@ const Home: NextPage = ({ articles }: any) => {
       </Head>
       <Page light={isDarkMode}>
         <NavBar isDarkMode={isDarkMode} setDarkMode={setDarkMode} />
+        <BannerContainer>
+          <Banner light={isDarkMode}>Test</Banner>
+          <Image src={BannerImage} width={550} height={500} />
+        </BannerContainer>
 
         {loaded.map((article: Article) => {
           return (
@@ -76,6 +81,14 @@ export const getStaticProps: GetStaticProps = async (context) => {
   };
 };
 
+const Banner = styled.div<{ light: boolean }>`
+  height: 500px;
+  width: 100%;
+  background-color: #b7c7c9;
+  font-size: 25rem;
+  color: ${(props) => (!props.light ? "#eee" : "#333")};
+`;
+
 const Page = styled.div<{ light: boolean }>`
   display: flex;
   position: static;
@@ -92,4 +105,10 @@ const H1 = styled.h1<{ light: boolean }>`
   @media (max-width: 500px) {
     font-size: 2rem;
   }
+`;
+
+const BannerContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 `;

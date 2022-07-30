@@ -11,7 +11,7 @@ const CardContainer = styled.div<{ light: boolean }>`
   box-sizing: border-box;
   background: ${(props) => (props.light ? "#eee" : "#333")};
   min-width: 100%;
-  margin: 25px;
+  margin-top: 25px;
   padding: 20px;
   align-items: flex-start;
   flex-wrap: wrap;
@@ -33,14 +33,13 @@ const Title = styled.h2<{ light: boolean }>`
 const ImageContainer = styled.div`
   max-width: 400px;
   min-height: 400px;
-
   @media (max-width: 500px) {
     max-width: 200px;
     min-height: 200px;
   }
 `;
 
-const StyledImg = styled.img`
+const StyledImg = styled.img<{ light: boolean }>`
   width: 100%;
   height: 100%;
   object-fit: cover;
