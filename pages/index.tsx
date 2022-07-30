@@ -6,7 +6,7 @@ import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
 import { GetArticleResults, Article } from "../types";
 import { useState } from "react";
 import Card from "../components/Card";
-import { FaMoon, FaSun } from "react-icons/fa";
+import NavBar from "../components/NavBar";
 
 const imgUrl =
   "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80";
@@ -14,9 +14,6 @@ const imgUrl =
 const Home: NextPage = ({ articles }: any) => {
   const [isDarkMode, setDarkMode] = useState(true);
 
-  const handleToggle = () => {
-    setDarkMode(!isDarkMode);
-  };
   const loaded = articles.retrievePageArticles;
 
   return (
@@ -27,10 +24,7 @@ const Home: NextPage = ({ articles }: any) => {
         <link rel="icon" href="/article.ico" />
       </Head>
       <Page light={isDarkMode}>
-        <H1 light={isDarkMode}>Welcome to the blog site</H1>
-        <Toggle light={isDarkMode} onClick={handleToggle}>
-          {!isDarkMode ? <FaSun /> : <FaMoon />}
-        </Toggle>
+        <NavBar isDarkMode={isDarkMode} setDarkMode={setDarkMode} />
 
         {loaded.map((article: Article) => {
           return (
@@ -90,19 +84,7 @@ const Page = styled.div<{ light: boolean }>`
   background-color: ${(props) => (props.light ? "#eee" : "#333")};
   width: 100vw;
 `;
-const Toggle = styled.button<{ light: boolean }>`
-  padding-right: 5rem;
-  border: none;
-  outline: none;
-  font-size: 2rem;
-  cursor: pointer;
-  transition: 0.2s all ease-in-out;
-  background: none;
-  color: ${(props) => (!props.light ? "#eee" : "#333")};
-  position: absolute;
-  top: 0;
-  right: 0;
-`;
+
 const H1 = styled.h1<{ light: boolean }>`
   font-size: 3rem;
   color: ${(props) => (!props.light ? "#eee" : "#000")};

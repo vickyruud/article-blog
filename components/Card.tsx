@@ -6,9 +6,8 @@ import Link from "next/link";
 const CardContainer = styled.div<{ light: boolean }>`
   display: flex;
   flex-direction: row;
-  border-top: 5px solid;
-  border-width: thin;
-  border-color: ${(props) => (!props.light ? "#eee" : "#333")};
+  border-top: 1px solid;
+  border-color: ${(props) => (!props.light ? "#eee" : "#b0816e")};
   box-sizing: border-box;
   background: ${(props) => (props.light ? "#eee" : "#333")};
   min-width: 100%;
@@ -34,6 +33,7 @@ const Title = styled.h2<{ light: boolean }>`
 const ImageContainer = styled.div`
   max-width: 400px;
   min-height: 400px;
+
   @media (max-width: 500px) {
     max-width: 200px;
     min-height: 200px;
@@ -45,6 +45,7 @@ const StyledImg = styled.img`
   height: 100%;
   object-fit: cover;
   border: 1px solid;
+  border-color: ${(props) => (!props.light ? "#eee" : "#b0816e")};
 `;
 
 const ArticleText = styled.p<{ light: boolean }>`
