@@ -20,13 +20,13 @@ const Card = ({
 }) => (
   <CardContainer light={light}>
     <ImageContainer>
-      <StyledImg src={imgUrl} />
+      <Image src={`${imgUrl}`} width="300" height="300" />
     </ImageContainer>
     <TextContainer>
       <Title light={light}>{title}</Title>
       <ArticleText light={light}>{text}</ArticleText>
       {url && (
-        <StyledLink href={url} light={light}>
+        <StyledLink href={`${url}`} light={light}>
           Read the Article
         </StyledLink>
       )}
@@ -69,14 +69,6 @@ const ImageContainer = styled.div`
     max-width: 200px;
     min-height: 200px;
   }
-`;
-
-const StyledImg = styled.img<{ light: boolean }>`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border: 1px solid;
-  border-color: ${(props) => (!props.light ? "#eee" : "#b0816e")};
 `;
 
 const ArticleText = styled.p<{ light: boolean }>`
