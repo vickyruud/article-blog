@@ -3,6 +3,38 @@ import styled from "styled-components";
 import Image from "next/image";
 import Link from "next/link";
 
+const Card = ({
+  title,
+  text,
+  author,
+  imgUrl,
+  light,
+  url,
+}: {
+  url: String;
+  title: String;
+  text: String;
+  author: String;
+  imgUrl: String;
+  light: boolean;
+}) => (
+  <CardContainer light={light}>
+    <ImageContainer>
+      <StyledImg src={imgUrl} />
+    </ImageContainer>
+    <TextContainer>
+      <Title light={light}>{title}</Title>
+      <ArticleText light={light}>{text}</ArticleText>
+      {url && (
+        <StyledLink href={url} light={light}>
+          Read the Article
+        </StyledLink>
+      )}
+    </TextContainer>
+  </CardContainer>
+);
+export default Card;
+
 const CardContainer = styled.div<{ light: boolean }>`
   display: flex;
   flex-direction: row;
@@ -62,35 +94,3 @@ const StyledLink = styled.a<{ light: boolean }>`
   color: ${(props) => (!props.light ? "#eee" : "#333")};
   font-weight: bold;
 `;
-
-const Card = ({
-  title,
-  text,
-  author,
-  imgUrl,
-  light,
-  url,
-}: {
-  url: String;
-  title: String;
-  text: String;
-  author: String;
-  imgUrl: String;
-  light: boolean;
-}) => (
-  <CardContainer light={light}>
-    <ImageContainer>
-      <StyledImg src={imgUrl} />
-    </ImageContainer>
-    <TextContainer>
-      <Title light={light}>{title}</Title>
-      <ArticleText light={light}>{text}</ArticleText>
-      {url && (
-        <StyledLink href={url} light={light}>
-          Read the Article
-        </StyledLink>
-      )}
-    </TextContainer>
-  </CardContainer>
-);
-export default Card;

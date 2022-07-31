@@ -34,7 +34,7 @@ const NavBar = ({
       </Container>
       <MenuContainer light={isDarkMode}>
         <Button light={isDarkMode} onClick={() => setActive(true)}>
-          Add New Post
+          New Article
         </Button>
         <ModalForm
           light={isDarkMode}
@@ -58,7 +58,7 @@ const NavBar = ({
           <MobileContainer light={isDarkMode}>
             <H1 light={isDarkMode}>Articulate - Read Interesting Articles</H1>
             <Button light={isDarkMode} onClick={() => setActive(true)}>
-              Add New Post
+              New Article
             </Button>
 
             <ModalForm
@@ -122,7 +122,6 @@ const Toggle = styled.button<{ light: boolean }>`
 
 const MenuContainer = styled.div<{ light: boolean }>`
   display: flex;
-  width: 10%;
   align-items: center;
   justify-content: space-between;
   padding-right: 40px;

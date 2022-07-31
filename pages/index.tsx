@@ -2,36 +2,42 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import styled from "styled-components";
-import { gql, useQuery } from "@apollo/client";
-import { Article } from "../types";
-import { useEffect, useState } from "react";
+import { useQuery } from "@apollo/client";
+import { useState } from "react";
 import Card from "../components/Card";
 import NavBar from "../components/NavBar";
 import BannerImage from "../public/book.jpg";
-import { GET_ARTICLES } from "../graphql/queries/articles";
+import { GET_MORE_ARTICLES } from "../graphql/queries/articles";
 import InfiniteScroll from "react-infinite-scroll-component";
+import ArticleList from "../components/ArticleList";
+
 //stock image url
-const imgUrl =
-  "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80";
 
 const Home: NextPage = () => {
   const [isDarkMode, setDarkMode] = useState(true);
+
   const [articlesLoaded, setArticlesLoaded] = useState<
     Array<{ key: string; value: string }>
   >([]);
-  const [nav, setNav] = useState(false);
-  const [page, setPage] = useState(1);
 
-  const { loading, error, fetchMore } = useQuery(GET_ARTICLES, {
+  const [nav, setNav] = useState(false);
+
+  const [page, setPage] = useState(0);
+
+  //loads data from graphql
+  const { loading, error, fetchMore } = useQuery(GET_MORE_ARTICLES, {
     variables: { page: page },
     onCompleted: (data) => {
       if (!articlesLoaded.length) {
         setArticlesLoaded(data.retrievePageArticles);
+        console.log(data.retrievePageArticles);
+
         setPage((prevPage) => prevPage + 1);
       }
     },
   });
 
+  //retrives more articles
   const getMoreArticles = async () => {
     const { data } = await fetchMore({
       variables: { page: page },
@@ -88,19 +94,7 @@ const Home: NextPage = () => {
               </p>
             }
           >
-            {articlesLoaded.map((article: Article) => {
-              return (
-                <Card
-                  key={article.id}
-                  title={article.title}
-                  text={article.text}
-                  author={article.author}
-                  imgUrl={imgUrl}
-                  light={isDarkMode}
-                  url={article.url}
-                />
-              );
-            })}
+            <ArticleList articles={articlesLoaded} isDarkMode={isDarkMode} />
           </InfiniteScroll>
         )}
       </Page>
@@ -109,18 +103,6 @@ const Home: NextPage = () => {
 };
 
 export default Home;
-
-const Banner = styled.div<{ light: boolean }>`
-  height: 500px;
-  width: 100%;
-  background-color: ${(props) => (props.light ? "#b7c7c9" : "#333")};
-
-  font-size: 25rem;
-  color: ${(props) => (!props.light ? "#eee" : "#8c778c")};
-  @media (max-width: 750px) {
-    font-size: 8rem;
-  }
-`;
 
 const Page = styled.div<{ light: boolean }>`
   display: flex;
@@ -146,5 +128,16 @@ const BannerContainer = styled.div`
   justify-content: center;
   @media (max-width: 750px) {
     flex-direction: column;
+  }
+`;
+const Banner = styled.div<{ light: boolean }>`
+  height: 500px;
+  width: 100%;
+  background-color: ${(props) => (props.light ? "#b7c7c9" : "#333")};
+
+  font-size: 25rem;
+  color: ${(props) => (!props.light ? "#eee" : "#8c778c")};
+  @media (max-width: 750px) {
+    font-size: 8rem;
   }
 `;
