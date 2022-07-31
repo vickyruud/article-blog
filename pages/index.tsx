@@ -11,8 +11,11 @@ import {
   GET_MORE_ARTICLES,
   GET_FIRST_ARTICLES,
 } from "../graphql/queries/articles";
-import InfiniteScroll from "react-infinite-scroll-component";
 import ArticleList from "../components/ArticleList";
+import InfiniteList from "../components/InfiniteList";
+
+const imgUrl =
+  "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80";
 
 const Home: NextPage = () => {
   const [isDarkMode, setDarkMode] = useState(true);
@@ -23,31 +26,15 @@ const Home: NextPage = () => {
 
   const [nav, setNav] = useState(false);
 
-  const [page, setPage] = useState(0);
-
   //loads data from graphql
-  const { loading, error, fetchMore } = useQuery(GET_MORE_ARTICLES, {
-    variables: { page: page },
+  const { loading, error, fetchMore } = useQuery(GET_FIRST_ARTICLES, {
     onCompleted: (data) => {
       if (!articlesLoaded.length) {
-        setArticlesLoaded(data.retrievePageArticles);
-        setPage((prevPage) => prevPage + 1);
+        console.log(data.firstPageArticles);
+        setArticlesLoaded(data.firstPageArticles);
       }
     },
   });
-
-  //retrives more articles
-  const getMoreArticles = async () => {
-    const { data } = await fetchMore({
-      variables: { page: page },
-    });
-
-    data.retrievePageArticles.forEach((element: any) => {
-      setArticlesLoaded((prevArticles) => [...prevArticles, element]);
-    });
-
-    setPage((prevPage) => prevPage + 1);
-  };
 
   const handleClick = () => setNav(!nav);
 
@@ -77,21 +64,9 @@ const Home: NextPage = () => {
           </ImageContainer>
         </BannerContainer>
         {articlesLoaded && (
-          <InfiniteScroll
-            dataLength={articlesLoaded.length}
-            next={getMoreArticles}
-            pullDownToRefreshThreshold={50}
-            hasMore={true}
-            loader={<h4>Loading...</h4>}
-            endMessage={
-              <p style={{ textAlign: "center" }}>
-                <b>You have seen it all</b>
-              </p>
-            }
-          >
-            <ArticleList articles={articlesLoaded} isDarkMode={isDarkMode} />
-          </InfiniteScroll>
+          <ArticleList articles={articlesLoaded} isDarkMode={isDarkMode} />
         )}
+        {articlesLoaded && <InfiniteList isDarkMode={isDarkMode} />}
       </Page>
     </>
   );
