@@ -1,7 +1,8 @@
-import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { FaMoon, FaSun, FaBars, FaTimes } from "react-icons/fa";
-import { useState } from "react";
+import ModalForm from "./ModalForm";
+import { Button } from "./modal.styles";
 
 const NavBar = ({
   isDarkMode,
@@ -19,15 +20,25 @@ const NavBar = ({
   const handleToggle = () => {
     setDarkMode(!isDarkMode);
   };
+
+  const [active, setActive] = useState(false);
+
   return (
     <RootContainer light={isDarkMode}>
       <Container light={isDarkMode}>
         <H1 light={isDarkMode}>Articulate - Read Interesting Articles</H1>
       </Container>
       <MenuContainer light={isDarkMode}>
-        <StyledLink light={isDarkMode} href="/">
-          New Post
-        </StyledLink>
+        <Button light={isDarkMode} onClick={() => setActive(true)}>
+          Add New Post
+        </Button>
+        <ModalForm
+          light={isDarkMode}
+          active={active}
+          hideModal={() => setActive(false)}
+        >
+          Click Me
+        </ModalForm>
         <Toggle light={isDarkMode} onClick={handleToggle}>
           {!isDarkMode ? <FaSun size={14} /> : <FaMoon size={14} />}
         </Toggle>
@@ -42,9 +53,17 @@ const NavBar = ({
         <MobileRootContainer light={isDarkMode}>
           <MobileContainer light={isDarkMode}>
             <H1 light={isDarkMode}>Articulate - Read Interesting Articles</H1>
-            <StyledLink light={isDarkMode} href="/">
-              New Post
-            </StyledLink>
+            <Button light={isDarkMode} onClick={() => setActive(true)}>
+              Add New Post
+            </Button>
+
+            <ModalForm
+              light={isDarkMode}
+              active={active}
+              hideModal={() => setActive(false)}
+            >
+              Click Me
+            </ModalForm>
             <Toggle light={isDarkMode} onClick={handleToggle}>
               {!isDarkMode ? <FaSun size={14} /> : <FaMoon size={14} />}
             </Toggle>
@@ -96,12 +115,6 @@ const Toggle = styled.button<{ light: boolean }>`
   color: ${(props) => (!props.light ? "#eee" : "#333")};
 `;
 
-const ToggleContainer = styled.div`
-  display: flex;
-  align-items: center;
-  background-color: red;
-`;
-
 const MenuContainer = styled.div<{ light: boolean }>`
   display: flex;
   width: 10%;
@@ -130,6 +143,10 @@ const HamburgerButton = styled.button<{ light: boolean }>`
     top: 0px;
     margin-top: 5px;
     border: none;
+    margin-bottom: 8px;
+    margin-top: 8px;
+
+    overflow-y: hidden;
   }
 `;
 
@@ -143,7 +160,7 @@ const MobileRootContainer = styled.div<{ light: boolean }>`
 const MobileContainer = styled.div<{ light: boolean }>`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
   height: 100%;
   width: 100%;
   background-color: ${(props) => (props.light ? "#eee" : "#333")};

@@ -1,7 +1,6 @@
 import React from "react";
 import {
   ModalBlock,
-  ModalBody,
   ModalClose,
   ModalContainer,
   ModalFooter,
@@ -9,20 +8,34 @@ import {
   ModalOverlay,
   ModalTitle,
 } from "./modal.styles";
+import NewArticleForm from "./NewArticleForm";
 
-const ModalForm = ({ active, hideModal }: { active: any; hideModal: any }) => {
+const ModalForm = ({
+  active,
+  hideModal,
+  light,
+}: {
+  active: any;
+  hideModal: any;
+  light: boolean;
+}) => {
   return (
     <>
       {active && (
         <ModalBlock>
-          <ModalOverlay onClick={() => hideModal()}></ModalOverlay>
-          <ModalContainer>
+          <ModalOverlay
+            light={light}
+            onClick={() => hideModal()}
+          ></ModalOverlay>
+          <ModalContainer light={light}>
             <ModalHeader>
-              <ModalTitle>Add New Post</ModalTitle>
-              <ModalClose onClick={() => hideModal()}>X</ModalClose>
+              <ModalTitle light={light}>Add New Post</ModalTitle>
+              <ModalClose light={light} onClick={() => hideModal()}>
+                X
+              </ModalClose>
             </ModalHeader>
-            <ModalBody>Here you go</ModalBody>
-            <ModalFooter>Bye</ModalFooter>
+            <NewArticleForm />
+            <ModalFooter light={light}>Bye</ModalFooter>
           </ModalContainer>
         </ModalBlock>
       )}
