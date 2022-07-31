@@ -72,7 +72,9 @@ const Home: NextPage = () => {
           <Banner light={isDarkMode}>
             <BannerText light={isDarkMode}>Read Every Article</BannerText>
           </Banner>
-          <Image alt="banner" src={BannerImage} width={550} height={500} />
+          <ImageContainer nav={nav}>
+            <Image alt="banner" src={BannerImage} width={550} height={500} />
+          </ImageContainer>
         </BannerContainer>
         {articlesLoaded && (
           <InfiniteScroll
@@ -140,4 +142,8 @@ const BannerText = styled.p<{ light: boolean }>`
     font-size: 4rem;
     text-align: center;
   }
+`;
+
+const ImageContainer = styled.div<{ nav: boolean }>`
+  display: ${(props) => (props.nav ? "none" : "flex")};
 `;

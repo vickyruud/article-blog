@@ -89,10 +89,11 @@ const H1 = styled.h1<{ light: boolean }>`
 const RootContainer = styled.div<{ light: boolean }>`
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  height: 25px;
   margin-top: 25px;
   padding-bottom: 10px;
+  @media (max-width: 750px) {
+    justify-content: flex-end;
+  }
 `;
 
 const Container = styled.div<{ light: boolean; nav: boolean }>`
@@ -148,7 +149,7 @@ const MobileRootContainer = styled.div<{ light: boolean }>`
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 100%;
+  height: 900px;
 `;
 
 const MobileContainer = styled.div<{ light: boolean }>`
