@@ -14,6 +14,8 @@ import {
 import InfiniteScroll from "react-infinite-scroll-component";
 import ArticleList from "../components/ArticleList";
 
+const imgResponsive = "750w";
+
 const Home: NextPage = () => {
   const [isDarkMode, setDarkMode] = useState(true);
 
@@ -71,12 +73,7 @@ const Home: NextPage = () => {
         {!nav && (
           <BannerContainer>
             <Banner light={isDarkMode}>Test</Banner>
-            <Image
-              responsive="750w"
-              src={BannerImage}
-              width={550}
-              height={500}
-            />
+            <Image src={BannerImage} width={550} height={500} />
           </BannerContainer>
         )}
         {articlesLoaded && (
