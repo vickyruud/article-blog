@@ -68,12 +68,10 @@ const Home: NextPage = () => {
           articles={articlesLoaded}
           setArticles={setArticlesLoaded}
         />
-        {!nav && (
-          <BannerContainer>
-            <Banner light={isDarkMode}>Test</Banner>
-            <Image alt="banner" src={BannerImage} width={550} height={500} />
-          </BannerContainer>
-        )}
+        <BannerContainer nav={nav}>
+          <Banner light={isDarkMode}>Test</Banner>
+          <Image alt="banner" src={BannerImage} width={550} height={500} />
+        </BannerContainer>
         {articlesLoaded && (
           <InfiniteScroll
             dataLength={articlesLoaded.length}
@@ -115,10 +113,12 @@ const H1 = styled.h1<{ light: boolean }>`
   }
 `;
 
-const BannerContainer = styled.div`
+const BannerContainer = styled.div<{ nav: boolean }>`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  opacity: ${(props) => (props.nav ? 0 : 1)};
+
   @media (max-width: 750px) {
     flex-direction: column;
   }
