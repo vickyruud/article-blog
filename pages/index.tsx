@@ -1,62 +1,50 @@
-import type { GetStaticProps, NextPage } from "next";
+import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import styled from "styled-components";
-import { ApolloClient, InMemoryCache, gql } from "@apollo/client";
-import { GetArticleResults, Article } from "../types";
+import { gql, useQuery } from "@apollo/client";
+import { Article } from "../types";
 import { useEffect, useState } from "react";
 import Card from "../components/Card";
 import NavBar from "../components/NavBar";
 import BannerImage from "../public/book.jpg";
+import { GET_ARTICLES } from "../graphql/queries/articles";
 import InfiniteScroll from "react-infinite-scroll-component";
-const client = new ApolloClient({
-  uri: "https://gql-technical-assignment.herokuapp.com/graphql",
-  cache: new InMemoryCache(),
-});
-
+//stock image url
 const imgUrl =
   "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80";
 
-const Home: NextPage = ({ articles }: any) => {
+const Home: NextPage = () => {
   const [isDarkMode, setDarkMode] = useState(true);
-  const [articlesLoaded, setArticlesLoaded] = useState(
-    articles.retrievePageArticles
-  );
+  const [articlesLoaded, setArticlesLoaded] = useState<
+    Array<{ key: string; value: string }>
+  >([]);
   const [nav, setNav] = useState(false);
   const [page, setPage] = useState(1);
 
-  const handleClick = () => setNav(!nav);
+  const { loading, error, fetchMore } = useQuery(GET_ARTICLES, {
+    variables: { page: page },
+    onCompleted: (data) => {
+      if (!articlesLoaded.length) {
+        setArticlesLoaded(data.retrievePageArticles);
+        setPage((prevPage) => prevPage + 1);
+      }
+    },
+  });
 
   const getMoreArticles = async () => {
-    const { data }: GetArticleResults = await client.query({
-      query: gql`
-        query {
-          retrievePageArticles(page: 2) {
-            id
-            author
-            createdAt
-            score
-            updatedAt
-            title
-            text
-            type
-            url
-          }
-        }
-      `,
+    const { data } = await fetchMore({
+      variables: { page: page },
     });
-    const newArticles = data;
 
-    setArticlesLoaded((articles) => [
-      ...articles,
-      ...newArticles.retrievePageArticles,
-    ]);
-    setPage((page) => page + 1);
+    data.retrievePageArticles.forEach((element: any) => {
+      setArticlesLoaded((prevArticles) => [...prevArticles, element]);
+    });
+
+    setPage((prevPage) => prevPage + 1);
   };
 
-  useEffect(() => {
-    getMoreArticles();
-  }, []);
+  const handleClick = () => setNav(!nav);
 
   return (
     <>
@@ -87,51 +75,40 @@ const Home: NextPage = ({ articles }: any) => {
             />
           </BannerContainer>
         )}
-        {articlesLoaded.map((article: Article) => {
-          return (
-            <Card
-              key={article.id}
-              title={article.title}
-              text={article.text}
-              author={article.author}
-              imgUrl={imgUrl}
-              light={isDarkMode}
-              url={article.url}
-            />
-          );
-        })}
+        {articlesLoaded && (
+          <InfiniteScroll
+            dataLength={articlesLoaded.length}
+            next={getMoreArticles}
+            pullDownToRefreshThreshold={50}
+            hasMore={true}
+            loader={<h4>Loading...</h4>}
+            endMessage={
+              <p style={{ textAlign: "center" }}>
+                <b>You have seen it all</b>
+              </p>
+            }
+          >
+            {articlesLoaded.map((article: Article) => {
+              return (
+                <Card
+                  key={article.id}
+                  title={article.title}
+                  text={article.text}
+                  author={article.author}
+                  imgUrl={imgUrl}
+                  light={isDarkMode}
+                  url={article.url}
+                />
+              );
+            })}
+          </InfiniteScroll>
+        )}
       </Page>
     </>
   );
 };
 
 export default Home;
-
-export const getStaticProps: GetStaticProps = async (context) => {
-  const { data }: GetArticleResults = await client.query({
-    query: gql`
-      query {
-        retrievePageArticles(page: 1) {
-          id
-          author
-          createdAt
-          score
-          updatedAt
-          title
-          text
-          type
-          url
-        }
-      }
-    `,
-  });
-
-  return {
-    props: {
-      articles: data,
-    },
-  };
-};
 
 const Banner = styled.div<{ light: boolean }>`
   height: 500px;

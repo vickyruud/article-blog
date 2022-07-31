@@ -1,21 +1,5 @@
 import styled from "styled-components";
 
-const Input = styled.input`
-  font-size: 18px;
-  padding: 10px;
-  margin: 10px;
-  border: none;
-  border-radius: 3px;
-  ::placeholder {
-    color: #775963;
-  }
-  width: 500px;
-`;
-
-const Form = styled.form`
-  width: 100%;
-`;
-
 import React, { useState } from "react";
 import { Button } from "./modal.styles";
 
@@ -31,16 +15,23 @@ const NewArticleForm = ({
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [url, setUrl] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleFormSubmit = (event: any) => {
     event.preventDefault();
-    const newArticle = {
-      title,
-      text,
-      url,
-    };
-    setArticles((prev: any) => [...prev, newArticle]);
-    hideModal();
+
+    if (title.trim() && text.trim() && url.trim()) {
+      const newArticle = {
+        title,
+        text,
+        url,
+      };
+      setArticles((prev: any) => [...prev, newArticle]);
+      hideModal();
+      setErrorMessage("");
+    } else {
+      setErrorMessage("Please complete all fields before submitting");
+    }
   };
 
   return (
@@ -61,6 +52,7 @@ const NewArticleForm = ({
           type="text"
           placeholder="URL"
         />
+        {errorMessage && <ErrorAlert>{errorMessage}</ErrorAlert>}
         <Button type="submit" light={light}>
           Submit
         </Button>
@@ -70,3 +62,25 @@ const NewArticleForm = ({
 };
 
 export default NewArticleForm;
+
+const Input = styled.input`
+  font-size: 18px;
+  padding: 10px;
+  margin: 10px;
+  border: none;
+  border-radius: 3px;
+  ::placeholder {
+    color: #775963;
+  }
+  width: 500px;
+`;
+
+const Form = styled.form`
+  width: 100%;
+`;
+
+const ErrorAlert = styled.p`
+  color: #a75040;
+  font-weight: bold;
+  width: 250px;
+`;
