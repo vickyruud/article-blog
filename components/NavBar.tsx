@@ -130,7 +130,6 @@ const MenuContainer = styled.div<{ light: boolean }>`
   }
 `;
 
-
 const HamburgerButton = styled.button<{ light: boolean }>`
   display: none;
 

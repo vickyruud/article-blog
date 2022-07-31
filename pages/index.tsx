@@ -68,7 +68,6 @@ const Home: NextPage = () => {
           articles={articlesLoaded}
           setArticles={setArticlesLoaded}
         />
-
         {!nav && (
           <BannerContainer>
             <Banner light={isDarkMode}>Test</Banner>
