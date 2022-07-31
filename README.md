@@ -25,4 +25,6 @@ This is an application to view and post articles, blog posts etc.
 - Use npm install to install the require dependencies
 - use npm run dev to start the server
 
+## Demo
 
+![Articles](https://github.com/vickyruud/article-blog/blob/main/public/demo.gif)
