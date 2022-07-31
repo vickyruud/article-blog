@@ -14,8 +14,6 @@ import {
 import InfiniteScroll from "react-infinite-scroll-component";
 import ArticleList from "../components/ArticleList";
 
-const imgResponsive = "750w";
-
 const Home: NextPage = () => {
   const [isDarkMode, setDarkMode] = useState(true);
 
