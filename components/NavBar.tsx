@@ -10,12 +10,16 @@ const NavBar = ({
   handleClick,
   setNav,
   nav,
+  articles,
+  setArticles,
 }: {
   isDarkMode: boolean;
   setDarkMode: any;
   handleClick: any;
   setNav: any;
   nav: boolean;
+  articles: any;
+  setArticles: any;
 }) => {
   const handleToggle = () => {
     setDarkMode(!isDarkMode);
@@ -36,9 +40,9 @@ const NavBar = ({
           light={isDarkMode}
           active={active}
           hideModal={() => setActive(false)}
-        >
-          Click Me
-        </ModalForm>
+          setArticles={setArticles}
+        />
+
         <Toggle light={isDarkMode} onClick={handleToggle}>
           {!isDarkMode ? <FaSun size={14} /> : <FaMoon size={14} />}
         </Toggle>
@@ -61,6 +65,7 @@ const NavBar = ({
               light={isDarkMode}
               active={active}
               hideModal={() => setActive(false)}
+              setArticles={setArticles}
             >
               Click Me
             </ModalForm>

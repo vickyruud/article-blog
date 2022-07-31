@@ -46,7 +46,6 @@ const Home: NextPage = ({ articles }: any) => {
       `,
     });
     const newArticles = data;
-    console.log(newArticles);
 
     setArticlesLoaded((articles) => [
       ...articles,
@@ -73,6 +72,8 @@ const Home: NextPage = ({ articles }: any) => {
           handleClick={handleClick}
           isDarkMode={isDarkMode}
           setDarkMode={setDarkMode}
+          articles={articlesLoaded}
+          setArticles={setArticlesLoaded}
         />
 
         {!nav && (
@@ -86,27 +87,18 @@ const Home: NextPage = ({ articles }: any) => {
             />
           </BannerContainer>
         )}
-
-        <InfiniteScroll
-          dataLength={articlesLoaded.length}
-          next={getMoreArticles}
-          hasMore={true}
-          loader={<h4>Loading...</h4>}
-        >
-          {articlesLoaded.map((article: Article) => {
-            return (
-              <Card
-                key={article.id}
-                title={article.title}
-                text={article.text}
-                author={article.author}
-                imgUrl={imgUrl}
-                light={isDarkMode}
-                url={article.url}
-              />
-            );
-          })}
-        </InfiniteScroll>
+        {articlesLoaded.map((article: Article) => {
+          return (
+            <Card
+              title={article.title}
+              text={article.text}
+              author={article.author}
+              imgUrl={imgUrl}
+              light={isDarkMode}
+              url={article.url}
+            />
+          );
+        })}
       </Page>
     </>
   );

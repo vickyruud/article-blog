@@ -14,10 +14,12 @@ const ModalForm = ({
   active,
   hideModal,
   light,
+  setArticles,
 }: {
   active: any;
   hideModal: any;
   light: boolean;
+  setArticles: any;
 }) => {
   return (
     <>
@@ -34,7 +36,7 @@ const ModalForm = ({
                 X
               </ModalClose>
             </ModalHeader>
-            <NewArticleForm />
+            <NewArticleForm hideModal={hideModal} light={light} setArticles={setArticles} />
             <ModalFooter light={light}>Bye</ModalFooter>
           </ModalContainer>
         </ModalBlock>

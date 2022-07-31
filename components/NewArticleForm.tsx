@@ -12,30 +12,59 @@ const Input = styled.input`
   width: 500px;
 `;
 
-import React, { useState } from "react";
+const Form = styled.form`
+  width: 100%;
+`;
 
-const NewArticleForm = () => {
+import React, { useState } from "react";
+import { Button } from "./modal.styles";
+
+const NewArticleForm = ({
+  setArticles,
+  light,
+  hideModal,
+}: {
+  setArticles: any;
+  light: boolean;
+  hideModal: any;
+}) => {
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [text, setText] = useState("");
   const [url, setUrl] = useState("");
+
+  const handleFormSubmit = (event: any) => {
+    event.preventDefault();
+    const newArticle = {
+      title,
+      text,
+      url,
+    };
+    setArticles((prev: any) => [...prev, newArticle]);
+    hideModal();
+  };
 
   return (
     <>
-      <Input
-        onChange={(e) => setTitle(e.target.value)}
-        type="text"
-        placeholder="Title"
-      />
-      <Input
-        onChange={(e) => setDescription(e.target.value)}
-        type="text"
-        placeholder="Description"
-      />
-      <Input
-        onChange={(e) => setUrl(e.target.value)}
-        type="text"
-        placeholder="URL"
-      />
+      <Form onSubmit={handleFormSubmit}>
+        <Input
+          onChange={(e) => setTitle(e.target.value)}
+          type="text"
+          placeholder="Title"
+        />
+        <Input
+          onChange={(e) => setText(e.target.value)}
+          type="text"
+          placeholder="Text"
+        />
+        <Input
+          onChange={(e) => setUrl(e.target.value)}
+          type="text"
+          placeholder="URL"
+        />
+        <Button type="submit" light={light}>
+          Submit
+        </Button>
+      </Form>
     </>
   );
 };
