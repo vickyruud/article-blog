@@ -77,6 +77,9 @@ const Input = styled.input`
 
 const Form = styled.form`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const ErrorAlert = styled.p`

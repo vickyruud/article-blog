@@ -36,8 +36,11 @@ const ModalForm = ({
                 X
               </ModalClose>
             </ModalHeader>
-            <NewArticleForm hideModal={hideModal} light={light} setArticles={setArticles} />
-            <ModalFooter light={light}>Bye</ModalFooter>
+            <NewArticleForm
+              hideModal={hideModal}
+              light={light}
+              setArticles={setArticles}
+            />
           </ModalContainer>
         </ModalBlock>
       )}
