@@ -130,10 +130,6 @@ const MenuContainer = styled.div<{ light: boolean }>`
   }
 `;
 
-const StyledLink = styled.a<{ light: boolean }>`
-  color: ${(props) => (!props.light ? "#eee" : "#333")};
-  font-weight: bold;
-`;
 
 const HamburgerButton = styled.button<{ light: boolean }>`
   display: none;

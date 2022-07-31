@@ -7,11 +7,12 @@ import { useState } from "react";
 import Card from "../components/Card";
 import NavBar from "../components/NavBar";
 import BannerImage from "../public/book.jpg";
-import { GET_MORE_ARTICLES } from "../graphql/queries/articles";
+import {
+  GET_MORE_ARTICLES,
+  GET_FIRST_ARTICLES,
+} from "../graphql/queries/articles";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ArticleList from "../components/ArticleList";
-
-//stock image url
 
 const Home: NextPage = () => {
   const [isDarkMode, setDarkMode] = useState(true);
@@ -30,8 +31,6 @@ const Home: NextPage = () => {
     onCompleted: (data) => {
       if (!articlesLoaded.length) {
         setArticlesLoaded(data.retrievePageArticles);
-        console.log(data.retrievePageArticles);
-
         setPage((prevPage) => prevPage + 1);
       }
     },
