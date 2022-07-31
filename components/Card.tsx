@@ -20,7 +20,7 @@ const Card = ({
 }) => (
   <CardContainer light={light}>
     <ImageContainer>
-      <Image src={`${imgUrl}`} width="300" height="300" />
+      <Image alt={`${title}`} src={`${imgUrl}`} width="300" height="300" />
     </ImageContainer>
     <TextContainer>
       <Title light={light}>{title}</Title>

@@ -71,7 +71,7 @@ const Home: NextPage = () => {
         {!nav && (
           <BannerContainer>
             <Banner light={isDarkMode}>Test</Banner>
-            <Image src={BannerImage} width={550} height={500} />
+            <Image alt="banner" src={BannerImage} width={550} height={500} />
           </BannerContainer>
         )}
         {articlesLoaded && (
