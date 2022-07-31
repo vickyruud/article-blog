@@ -13,7 +13,7 @@ This is an application to view and post articles, blog posts etc.
 ## Features
 
 - Users can view all articles
-- Users can add new article.
+- Users can add new articles
 - Displays articles using infinte scroll
 - Users can change theme between light and dark
 - Mobile Responsive design
