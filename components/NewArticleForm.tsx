@@ -72,14 +72,16 @@ const Input = styled.input`
   ::placeholder {
     color: #775963;
   }
-  width: 500px;
 `;
 
 const Form = styled.form`
-  width: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
+  @media (max-width: 750px) {
+    margin: 5px;
+  }
 `;
 
 const ErrorAlert = styled.p`

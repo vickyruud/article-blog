@@ -3,10 +3,10 @@ import {
   ModalBlock,
   ModalClose,
   ModalContainer,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   ModalTitle,
+  ModalBody,
 } from "./modal.styles";
 import NewArticleForm from "./NewArticleForm";
 
@@ -36,11 +36,13 @@ const ModalForm = ({
                 X
               </ModalClose>
             </ModalHeader>
-            <NewArticleForm
-              hideModal={hideModal}
-              light={light}
-              setArticles={setArticles}
-            />
+            <ModalBody>
+              <NewArticleForm
+                hideModal={hideModal}
+                light={light}
+                setArticles={setArticles}
+              />
+            </ModalBody>
           </ModalContainer>
         </ModalBlock>
       )}

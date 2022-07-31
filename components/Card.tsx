@@ -56,7 +56,7 @@ const CardContainer = styled.div<{ light: boolean }>`
 const Title = styled.h2<{ light: boolean }>`
   color: ${(props) => (!props.light ? "#eee" : "#333")};
   font-weight: bold;
-
+  margin-right: 10px;
   @media (max-width: 500px) {
     font-size: 1rem;
   }
@@ -73,6 +73,7 @@ const ImageContainer = styled.div`
 
 const ArticleText = styled.p<{ light: boolean }>`
   color: ${(props) => (!props.light ? "#eee" : "#333")};
+  margin-right: 10px;
 `;
 
 const TextContainer = styled.div`

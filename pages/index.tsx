@@ -69,7 +69,9 @@ const Home: NextPage = () => {
           setArticles={setArticlesLoaded}
         />
         <BannerContainer nav={nav}>
-          <Banner light={isDarkMode}>Test</Banner>
+          <Banner light={isDarkMode}>
+            <BannerText light={isDarkMode}>Read Every Article</BannerText>
+          </Banner>
           <Image alt="banner" src={BannerImage} width={550} height={500} />
         </BannerContainer>
         {articlesLoaded && (
@@ -102,6 +104,9 @@ const Page = styled.div<{ light: boolean }>`
   flex-direction: column;
   background-color: ${(props) => (props.light ? "#eee" : "#333")};
   width: 100vw;
+  @media (max-width: 750px) {
+    padding: 50px;
+  }
 `;
 
 const H1 = styled.h1<{ light: boolean }>`
@@ -117,20 +122,22 @@ const BannerContainer = styled.div<{ nav: boolean }>`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  opacity: ${(props) => (props.nav ? 0 : 1)};
-
   @media (max-width: 750px) {
     flex-direction: column;
+    width: 80%;
   }
 `;
 const Banner = styled.div<{ light: boolean }>`
   height: 500px;
   width: 100%;
   background-color: ${(props) => (props.light ? "#b7c7c9" : "#333")};
-
   font-size: 25rem;
+`;
+const BannerText = styled.p<{ light: boolean }>`
+  font-size: 8rem;
   color: ${(props) => (!props.light ? "#eee" : "#8c778c")};
   @media (max-width: 750px) {
-    font-size: 8rem;
+    font-size: 4rem;
+    text-align: center;
   }
 `;

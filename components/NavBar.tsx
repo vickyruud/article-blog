@@ -29,7 +29,7 @@ const NavBar = ({
 
   return (
     <RootContainer light={isDarkMode}>
-      <Container light={isDarkMode}>
+      <Container nav={nav} light={isDarkMode}>
         <H1 light={isDarkMode}>Articulate - Read Interesting Articles</H1>
       </Container>
       <MenuContainer light={isDarkMode}>
@@ -56,7 +56,6 @@ const NavBar = ({
       {nav && (
         <MobileRootContainer light={isDarkMode}>
           <MobileContainer light={isDarkMode}>
-            <H1 light={isDarkMode}>Articulate - Read Interesting Articles</H1>
             <Button light={isDarkMode} onClick={() => setActive(true)}>
               New Article
             </Button>
@@ -66,7 +65,7 @@ const NavBar = ({
               active={active}
               hideModal={() => setActive(false)}
               setArticles={setArticles}
-            ></ModalForm>
+            />
             <Toggle light={isDarkMode} onClick={handleToggle}>
               {!isDarkMode ? <FaSun size={14} /> : <FaMoon size={14} />}
             </Toggle>
@@ -90,13 +89,14 @@ const H1 = styled.h1<{ light: boolean }>`
 const RootContainer = styled.div<{ light: boolean }>`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   height: 25px;
   margin-top: 25px;
   padding-bottom: 10px;
 `;
 
-const Container = styled.div<{ light: boolean }>`
-  display: flex;
+const Container = styled.div<{ light: boolean; nav: boolean }>`
+  display: ${(props) => (props.nav ? "none" : "flex")};
   align-items: center;
   justify-content: space-between;
   padding-right: 25px;
@@ -104,9 +104,6 @@ const Container = styled.div<{ light: boolean }>`
   margin: 5px;
   align-items: center;
   place-items: center;
-  @media (max-width: 750px) {
-    display: none;
-  }
 `;
 
 const Toggle = styled.button<{ light: boolean }>`
@@ -157,7 +154,7 @@ const MobileRootContainer = styled.div<{ light: boolean }>`
 const MobileContainer = styled.div<{ light: boolean }>`
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: center;
   height: 100%;
   width: 100%;
   background-color: ${(props) => (props.light ? "#eee" : "#333")};

@@ -13,6 +13,18 @@ export const ModalBlock = styled.div`
   display: flex;
   opacity: 1;
   z-index: 400;
+  @media (max-width: 750px) {
+    padding: 50px;
+  }
+`;
+
+export const ModalBody = styled.div`
+  overflow-y: auto;
+  padding: 30px 10px;
+  position: relative;
+  @media (max-width: 750px) {
+    width: 70%;
+  }
 `;
 
 export const ModalOverlay = styled.a<{ light: boolean }>`
@@ -55,6 +67,10 @@ export const ModalHeader = styled.div`
   justify-content: space-between;
   color: #303742;
   padding: 20px 5px 10px 5px;
+  @media (max-width: 750px) {
+    width: 90%;
+    justify-content: space-around;
+  }
 `;
 
 export const ModalTitle = styled.span<{ light: boolean }>`
