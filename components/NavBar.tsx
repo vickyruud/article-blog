@@ -98,11 +98,8 @@ const RootContainer = styled.div<{ light: boolean }>`
 
 const Container = styled.div<{ light: boolean; nav: boolean }>`
   display: ${(props) => (props.nav ? "none" : "flex")};
-  align-items: center;
-  justify-content: space-between;
-  padding-right: 25px;
-  padding-left: 25px;
-  margin: 5px;
+  justify-content: center;
+  padding-right: 100px;
   align-items: center;
   place-items: center;
 `;
