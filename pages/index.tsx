@@ -90,6 +90,7 @@ const Home: NextPage = ({ articles }: any) => {
         {articlesLoaded.map((article: Article) => {
           return (
             <Card
+              key={article.id}
               title={article.title}
               text={article.text}
               author={article.author}
