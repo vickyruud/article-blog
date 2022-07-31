@@ -16,7 +16,7 @@ const ModalForm = ({
   light,
   setArticles,
 }: {
-  active: any;
+  active: boolean;
   hideModal: any;
   light: boolean;
   setArticles: any;

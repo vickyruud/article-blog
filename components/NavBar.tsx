@@ -66,9 +66,7 @@ const NavBar = ({
               active={active}
               hideModal={() => setActive(false)}
               setArticles={setArticles}
-            >
-              Click Me
-            </ModalForm>
+            ></ModalForm>
             <Toggle light={isDarkMode} onClick={handleToggle}>
               {!isDarkMode ? <FaSun size={14} /> : <FaMoon size={14} />}
             </Toggle>
