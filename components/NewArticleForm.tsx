@@ -26,7 +26,7 @@ const NewArticleForm = ({
         text,
         url,
       };
-      setArticles((prev: any) => [...prev, newArticle]);
+      setArticles((prev: any) => [newArticle, ...prev]);
       hideModal();
       setErrorMessage("");
     } else {
